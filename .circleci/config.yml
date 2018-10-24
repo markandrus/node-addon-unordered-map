@@ -68,7 +68,7 @@ jobs:
     environment:
       NODE_VERSION: 10
       COMPILER: clang
-      COMPILER_VERSION: 3
+      COMPILER_VERSION: 3.5
 
   node-10-gcc-8:
     <<: *base
@@ -113,7 +113,7 @@ jobs:
     environment:
       NODE_VERSION: 8
       COMPILER: clang
-      COMPILER_VERSION: 3
+      COMPILER_VERSION: 3.5
 
   node-8-gcc-8:
     <<: *base
@@ -158,7 +158,7 @@ jobs:
     environment:
       NODE_VERSION: 6
       COMPILER: clang
-      COMPILER_VERSION: 3
+      COMPILER_VERSION: 3.5
 
   node-6-gcc-8:
     <<: *base
