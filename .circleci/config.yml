@@ -40,8 +40,10 @@ aliases:
                 echo >> $BASH_ENV CXX=g++
               else
                 sudo apt-get install -y gcc-$COMPILER_VERSION g++-$COMPILER_VERSION
-                echo >> $BASH_ENV CC=gcc-$COMPILER_VERSION
-                echo >> $BASH_ENV CXX=g++-$COMPILER_VERSION
+                # echo >> $BASH_ENV CC=gcc-$COMPILER_VERSION
+                # echo >> $BASH_ENV CXX=g++-$COMPILER_VERSION
+                sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-$COMPILER_VERSION 1
+                sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-$COMPILER_VERSION 1
               fi
             else
               sudo apt-get install -y clang-$COMPILER_VERSION
@@ -52,8 +54,17 @@ aliases:
       - run:
           name: Check Compiler Versions
           command: |
-            $CC --version
-            $CXX --version
+            if [ -z "$CC" ]; then
+              gcc --version
+            else
+              $CC --version
+            fi
+
+            if [ -z "$CXX" ]; then
+              g++ --version
+            else
+              $CXX --version
+            fi
 
       - checkout
 
