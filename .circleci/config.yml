@@ -29,9 +29,9 @@ aliases:
             sudo apt-get update
 
             # NOTE(mroberts): I think this is what fucks things up.
-            sudo apt-get install -y binutils-2.26
-            sudo update-alternatives --install /usr/bin/ld ld /usr/bin/ld-2.26 1
-            sudo update-alternatives --install /usr/bin/ld.bfd ld.bfd /usr/bin/ld.bfd-2.26 1 --force
+            # sudo apt-get install -y binutils-2.26
+            # sudo update-alternatives --install /usr/bin/ld ld /usr/bin/ld-2.26 1
+            # sudo update-alternatives --install /usr/bin/ld.bfd ld.bfd /usr/bin/ld.bfd-2.26 1 --force
 
             if [ "$COMPILER" = gcc ]; then
               if [ "$COMPILER_VERSION" = 4 ]; then
