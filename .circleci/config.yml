@@ -1,0 +1,221 @@
+version: 2
+
+aliases:
+  base: &base
+    working_directory: ~/node-addon-unordered-map
+
+    docker:
+      - image: buildpack-deps:trusty
+
+    steps:
+      - run:
+          name: Install Node
+          command: |
+            cd ~
+            curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+
+      - run:
+          name: Check node and npm Versions
+          command: |
+            node --version
+            npm version
+
+      - run:
+          name: Install build-essentials and Compilers
+          command: |
+            sudo apt-get install -y build-essential software-properties-common
+            sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+            sudo apt-get update
+            if [ "$COMPILER" = gcc ]; then
+              if [ "$COMPILER_VERSION" = 4 ]; then
+                sudo apt-get install -y gcc g++
+                echo >> $BASH_ENV CC=gcc
+                echo >> $BASH_ENV CXX=g++
+              else
+                sudo apt-get install -y gcc-$COMPILER_VERSION g++-$COMPILER_VERSION
+                echo >> $BASH_ENV CC=gcc-$COMPILER_VERSION
+                echo >> $BASH_ENV CXX=g++-$COMPILER_VERSION
+              fi
+            else
+              sudo apt-get install -y clang-$COMPILER_VERSION
+              echo >> $BASH_ENV CC=clang-$COMPILER_VERSION
+              echo >> $BASH_ENV CXX=clang++-$COMPILER_VERSION
+            fi
+
+      - run:
+          name: Check Compiler Versions
+          command: |
+            $CC --version
+            $CXX --version
+
+      - checkout
+
+      - run:
+          name: npm install
+          command: npm install
+
+      - run:
+          name: npm test
+          command: npm test
+
+jobs:
+  # Node 10
+  # ---------------------------------------------------------------------------
+
+  node-10-clang-3:
+    <<: *base
+    environment:
+      NODE_VERSION: 10
+      COMPILER: clang
+      COMPILER_VERSION: 3
+
+  node-10-gcc-8:
+    <<: *base
+    environment:
+      NODE_VERSION: 10
+      COMPILER: gcc
+      COMPILER_VERSION: 8
+
+  node-10-gcc-7:
+    <<: *base
+    environment:
+      NODE_VERSION: 10
+      COMPILER: gcc
+      COMPILER_VERSION: 7
+
+  node-10-gcc-6:
+    <<: *base
+    environment:
+      NODE_VERSION: 10
+      COMPILER: gcc
+      COMPILER_VERSION: 6
+
+  node-10-gcc-5:
+    <<: *base
+    environment:
+      NODE_VERSION: 10
+      COMPILER: gcc
+      COMPILER_VERSION: 5
+
+  node-10-gcc-4:
+    <<: *base
+    environment:
+      NODE_VERSION: 10
+      COMPILER: gcc
+      COMPILER_VERSION: 4
+
+  # Node 8
+  # ---------------------------------------------------------------------------
+
+  node-8-clang-3:
+    <<: *base
+    environment:
+      NODE_VERSION: 8
+      COMPILER: clang
+      COMPILER_VERSION: 3
+
+  node-8-gcc-8:
+    <<: *base
+    environment:
+      NODE_VERSION: 8
+      COMPILER: gcc
+      COMPILER_VERSION: 8
+
+  node-8-gcc-7:
+    <<: *base
+    environment:
+      NODE_VERSION: 8
+      COMPILER: gcc
+      COMPILER_VERSION: 7
+
+  node-8-gcc-6:
+    <<: *base
+    environment:
+      NODE_VERSION: 8
+      COMPILER: gcc
+      COMPILER_VERSION: 6
+
+  node-8-gcc-5:
+    <<: *base
+    environment:
+      NODE_VERSION: 8
+      COMPILER: gcc
+      COMPILER_VERSION: 5
+
+  node-8-gcc-4:
+    <<: *base
+    environment:
+      NODE_VERSION: 8
+      COMPILER: gcc
+      COMPILER_VERSION: 4
+
+  # Node 6
+  # ---------------------------------------------------------------------------
+
+  node-6-clang-3:
+    <<: *base
+    environment:
+      NODE_VERSION: 6
+      COMPILER: clang
+      COMPILER_VERSION: 3
+
+  node-6-gcc-8:
+    <<: *base
+    environment:
+      NODE_VERSION: 6
+      COMPILER: gcc
+      COMPILER_VERSION: 8
+
+  node-6-gcc-7:
+    <<: *base
+    environment:
+      NODE_VERSION: 6
+      COMPILER: gcc
+      COMPILER_VERSION: 7
+
+  node-6-gcc-6:
+    <<: *base
+    environment:
+      NODE_VERSION: 6
+      COMPILER: gcc
+      COMPILER_VERSION: 6
+
+  node-6-gcc-5:
+    <<: *base
+    environment:
+      NODE_VERSION: 6
+      COMPILER: gcc
+      COMPILER_VERSION: 5
+
+  node-6-gcc-4:
+    <<: *base
+    environment:
+      NODE_VERSION: 6
+      COMPILER: gcc
+      COMPILER_VERSION: 4
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - node-10-clang-3
+      - node-10-gcc-8
+      - node-10-gcc-7
+      - node-10-gcc-6
+      - node-10-gcc-5
+      - node-10-gcc-4
+
+      - node-8-clang-3
+      - node-8-gcc-8
+      - node-8-gcc-7
+      - node-8-gcc-6
+      - node-8-gcc-5
+      - node-8-gcc-4
+
+      - node-6-clang-3
+      - node-6-gcc-8
+      - node-6-gcc-7
+      - node-6-gcc-6
+      - node-6-gcc-5
+      - node-6-gcc-4

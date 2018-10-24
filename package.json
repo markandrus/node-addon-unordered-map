@@ -1,0 +1,22 @@
+{
+  "name": "node-addon-unordered-map",
+  "version": "0.1.0",
+  "description": "Demonstrate a bug using std::unordered_map in Node addons",
+  "main": "index.js",
+  "scripts": {
+    "build": "node-gyp build",
+    "install": "node-gyp rebuild",
+    "test": "node index.js"
+  },
+  "keywords": [
+    "node",
+    "addon",
+    "unordered_map",
+    "bug"
+  ],
+  "author": "Mark Andrus Roberts <markandrusroberts@gmail.com>",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "node-gyp": "^3.8.0"
+  }
+}
